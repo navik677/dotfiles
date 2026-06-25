@@ -1,0 +1,16 @@
+font=JetBrainsMono Nerd Font 11
+width=300
+height=100
+margin=10
+border-size=2
+border-radius=0
+default-timeout=5000
+
+markup=1
+format=<b>%s</b>\n%b
+
+# Динамічні кольори
+background-color={background}f2
+text-color={foreground}
+border-color={color4}
+progress-color={color2}
