@@ -1,0 +1,57 @@
+/* Імпортуємо кольори згенеровані pywal */
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    /* Використовуємо фон з pywal з прозорістю */
+    background-color: alpha(@background, 0.95); 
+    color: @foreground;
+}
+
+#workspaces button {
+    color: @color8; /* Тьмяний колір для неактивних */
+    padding: 0 12px;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+#workspaces button.active {
+    color: @background;
+    background-color: @foreground; /* Світлий квадрат з кольору тексту */
+}
+
+#workspaces button:hover {
+    background: alpha(@foreground, 0.1);
+}
+
+#custom-player, #language, #cpu, #memory, #pulseaudio, #clock {
+    padding: 0 12px;
+}
+
+#custom-player {
+    color: @color4; 
+}
+
+#language {
+    color: @color3;
+}
+
+#cpu {
+    color: @color5;
+}
+
+#memory {
+    color: @color6;
+}
+
+#clock {
+    margin-right: 5px;
+}

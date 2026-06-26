@@ -1,0 +1,44 @@
+window {
+    background-color: transparent; /* Робимо саме вікно повністю прозорим */
+    font-family: "JetBrains Mono", sans-serif;
+    font-size: 14px;
+}
+
+#outer-box {
+    padding: 15px;
+    /* Фіксований темний фон з прозорістю 75% — основа для майбутнього блюру */
+    background-color: rgba(20, 20, 20, 0.75); 
+    border: 2px solid #574A8E; /* Твій динамічний бордер від pywal */
+    border-radius: 0px;
+}
+
+#input {
+    background-color: #091311;
+    color: #c1c4c3;
+    border: 1px solid #574A8E;
+    border-radius: 0px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+}
+
+#text {
+    color: #c1c4c3;
+}
+
+#entry {
+    padding: 6px 10px;
+    background-color: transparent;
+    border-radius: 0px;
+}
+
+#entry:selected {
+    background-color: #574A8E;
+}
+
+#text:selected {
+    color: #091311;
+}
+
+#entry:hover {
+    background-color: #586b68;
+}

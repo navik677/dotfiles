@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+# Папка зі шпалерами
+WALLPAPER_DIR="$HOME/Wallpapers"
+
+if [ -z "$(ls -A "$WALLPAPER_DIR" 2>/dev/null)" ]; then
+    notify-send "RandWP" "Папка ~/Wallpapers порожня!"
+    exit 1
+fi
+
+NEW_WP=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | shuf -n 1)
+
+cp "$NEW_WP" "$HOME/.config/current_wallpaper.png"
+
+# Генеруємо кольори
+wal -i "$NEW_WP"
+
+# Витягуємо чисті кольори з кешу pywal
+C_BG=$(sed -n '1p' ~/.cache/wal/colors)
+C_FG=$(sed -n '16p' ~/.cache/wal/colors)
+C_C3=$(sed -n '4p' ~/.cache/wal/colors)
+C_C8=$(sed -n '9p' ~/.cache/wal/colors)
+
+# Примусово переписуємо мітки в стилях Wofi на реальні HEX-кольори
+sed -i "s/WAL_BACKGROUND.*/WAL_BACKGROUND; \/* $C_BG *\//g" ~/.config/wofi/style.css
+sed -i "s/WAL_FOREGROUND.*/WAL_FOREGROUND; \/* $C_FG *\//g" ~/.config/wofi/style.css
+sed -i "s/WAL_COLOR3.*/WAL_COLOR3; \/* $C_C3 *\//g" ~/.config/wofi/style.css
+sed -i "s/WAL_COLOR8.*/WAL_COLOR8; \/* $C_C8 *\//g" ~/.config/wofi/style.css
+
+# Специфічний фікс для чистої заміни HEX у GTK
+sed -i "s/border: 3px solid WAL_COLOR3/border: 3px solid $C_C3/g" ~/.config/wofi/style.css
+sed -i "s/border: 2px solid WAL_COLOR8/border: 2px solid $C_C8/g" ~/.config/wofi/style.css
+sed -i "s/border: 2px solid WAL_COLOR3/border: 2px solid $C_C3/g" ~/.config/wofi/style.css
+sed -i "s/color: WAL_FOREGROUND/color: $C_FG/g" ~/.config/wofi/style.css
+sed -i "s/background-color: WAL_COLOR3/background-color: $C_C3/g" ~/.config/wofi/style.css
+sed -i "s/color: WAL_BACKGROUND/color: $C_BG/g" ~/.config/wofi/style.css
+
+# Скидаємо стилі Wofi до шаблону для наступного разу перед записом (або просто запишемо чистий конфіг з підставленими кольорами)
+# Для надійності просто перепишемо файл з актуальними кольорами:
+cat << C_EOF > ~/.config/wofi/style.css
+window {
+    margin: 0px;
+    border: 3px solid $C_C3;
+    border-radius: 0px;
+    background-color: rgba(10, 10, 10, 0.85);
+    font-family: "JetBrainsMono NF", "monospace";
+    font-size: 14px;
+}
+#outer-box { margin: 15px; border: none; background-color: transparent; }
+#input {
+    margin-bottom: 15px;
+    border: 2px solid $C_C8;
+    border-radius: 0px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: $C_FG;
+}
+#input:focus { border: 2px solid $C_C3; }
+#scroll { border: none; background-color: transparent; }
+#inner-box { border: none; background-color: transparent; }
+#entry { padding: 10px; border-radius: 0px; background-color: transparent; color: $C_FG; }
+#entry:selected { background-color: $C_C3; color: $C_BG; }
+#text { margin-left: 15px; background-color: transparent; }
+#img { background-color: transparent; }
+C_EOF
+
+# Сервіси та релоади
+pkill wofi
+pkill waybar
+waybar &
+hyprctl reload
+pkill mako
+mako &
+sleep 0.1
+
+pkill swaybg
+swaybg -m fill -i "$HOME/.config/current_wallpaper.png" &
+
+notify-send "RandWP" "Шпалери та тему успішно оновлено!"

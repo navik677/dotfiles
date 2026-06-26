@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+export PYTHONPATH="$HOME/.local/share/anime-tui:$PYTHONPATH"
+exec "$HOME/.local/share/anime-tui/venv/bin/python" -m anime_tui.main "$@"

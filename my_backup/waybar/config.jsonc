@@ -1,0 +1,63 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 28,
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["custom/player"],
+    "modules-right": ["hyprland/language", "cpu", "memory", "pulseaudio", "clock"],
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "all-outputs": true,
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+            "6": "六",
+            "7": "七",
+            "default": "十",
+            "active": "+"
+        },
+        "sort-by-number": true
+    },
+
+    "custom/player": {
+        "exec": "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null",
+        "exec-if": "playerctl status 2>/dev/null",
+        "interval": 2,
+        "format": "  {}",
+        "max-length": 45
+    },
+
+    "hyprland/language": {
+        "format": "  {}",
+        "format-en": "US",
+        "format-uk": "UA"
+    },
+
+    "cpu": {
+        "format": "  {usage}%"
+    },
+
+    "memory": {
+        "format": "  {used:0.1f}G",
+        "tooltip-format": "Всього: {total:0.1f}G"
+    },
+
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "tooltip-format": "Гучність: {volume}%"
+    },
+
+    "clock": {
+        "format": "{:%d/%m | %H:%M:%S}",
+        "interval": 1,
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    }
+}

@@ -1,0 +1,11 @@
+max-visible=5
+sort=-time
+layer=top
+anchor=top-right
+
+background-color=#091311e6
+text-color=#c1c4c3
+border-color=#574A8E
+border-size=2
+font=JetBrainsMono Nerd Font 10
+default-timeout=5000
